@@ -4,7 +4,7 @@ import time
 import websocket
 
 # --- আপনার তথ্য এখানে দিন ---
-API_TOKEN = "pat_5ca08f3a0f46e17f2d49215cc2c05e46d16d284e89160ba0deccd739cddcdf4e" # আপনার ব্রোকার অ্যাকাউন্ট থেকে নেওয়া API Token দিন
+API_TOKEN = "pat_35e31a62742d0c633c9153538f81fbd607b73c15ffc4af2a10aa0c21273f9202" # আপনার ব্রোকার অ্যাকাউন্ট থেকে নেওয়া API Token দিন
 TRADE_AMOUNT = 10  # প্রতিটি ট্রেডের অ্যামাউন্ট (ডলার)
 DURATION = 1  # ট্রেডের সময়সীমা
 DURATION_UNIT = "m"  # 'm' মানে মিনিট, 't' মানে টিক (Ticks)
