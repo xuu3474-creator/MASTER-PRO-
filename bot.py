@@ -82,7 +82,7 @@ def execute_trade(ws, contract_type="CALL"):
 
 if __name__ == "__main__":
     # Deriv ব্রোকারের অফিসিয়াল WebSocket URL
-    socket_url = "wss://ws.binaryws.com/websockets/v3?app_id=33xTSfODy1Gk5jX3kXeMj"
+    socket_url = "wss://ws.binaryws.com/websockets/v3?app_id=33xU6wAALpbpXGyF0iTt4"
 
     # WebSocket কানেকশন তৈরি করা
     ws = websocket.WebSocketApp(
