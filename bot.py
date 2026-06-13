@@ -4,7 +4,7 @@ import time
 import websocket
 
 # --- আপনার তথ্য এখানে দিন ---
-API_TOKEN = "pat_78a7a2c427743a09d592766064bc49bcc81f2a8e2f9e12987913e2f8e83272cc" # আপনার ব্রোকার অ্যাকাউন্ট থেকে নেওয়া API Token দিন
+API_TOKEN = "pat_5ca08f3a0f46e17f2d49215cc2c05e46d16d284e89160ba0deccd739cddcdf4e" # আপনার ব্রোকার অ্যাকাউন্ট থেকে নেওয়া API Token দিন
 TRADE_AMOUNT = 10  # প্রতিটি ট্রেডের অ্যামাউন্ট (ডলার)
 DURATION = 1  # ট্রেডের সময়সীমা
 DURATION_UNIT = "m"  # 'm' মানে মিনিট, 't' মানে টিক (Ticks)
@@ -82,7 +82,7 @@ def execute_trade(ws, contract_type="CALL"):
 
 if __name__ == "__main__":
     # Deriv ব্রোকারের অফিসিয়াল WebSocket URL
-    socket_url = "wss://ws.binaryws.com/websockets/v3?app_id=33xU6wAALpbpXGyF0iTt4"
+    socket_url = "wss://ws.binaryws.com/websockets/v3?app_id=1089"
 
     # WebSocket কানেকশন তৈরি করা
     ws = websocket.WebSocketApp(
