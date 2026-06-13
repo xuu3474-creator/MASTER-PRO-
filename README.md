@@ -1,4 +1,3 @@
-# MASTER-PRO-
 import json
 import ssl
 import time
