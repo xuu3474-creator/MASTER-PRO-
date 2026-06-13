@@ -4,7 +4,7 @@ import time
 import websocket
 
 # --- আপনার তথ্য এখানে দিন ---
-API_TOKEN = "pat_02c8820a6c7f8e95d8f037ee9774822674363a529ed2ef091d9e66ab368e3e6e".strip() # আপনার API Token
+API_TOKEN = "pat_02c8820a6c7f8e95d8f037ee9774822674363a529ed2ef091d9e66ab368e3e6e".strip() # আপনার PAT Token
 TRADE_AMOUNT = 10  # প্রতিটি ট্রেডের অ্যামাউন্ট (ডলার)
 DURATION = 1  # ট্রেডের সময়সীমা
 DURATION_UNIT = "m"  # 'm' মানে মিনিট
@@ -52,7 +52,6 @@ def execute_trade(ws, contract_type="CALL"):
     """অটোমেটিক ট্রেড প্লেস করার ফাংশন"""
     print(f"⏳ {SYMBOL} মার্কেটে {TRADE_AMOUNT}$ এর একটি {contract_type} ট্রেড পাঠানো হচ্ছে...")
     
-    # ডেরিভ এপিআই-এর সঠিক ফর্ম্যাট অনুযায়ী ট্রেড রিকোয়েস্ট তৈরি
     trade_request = {
         "buy": 1,
         "price": TRADE_AMOUNT,
@@ -69,8 +68,8 @@ def execute_trade(ws, contract_type="CALL"):
     ws.send(json.dumps(trade_request))
 
 if __name__ == "__main__":
-    # Deriv ব্রোকারের অফিশিয়াল অল-রাউন্ডার App ID দিয়ে কানেকশন তৈরি
-    socket_url = "wss://ws.binaryws.com/websockets/v3?app_id=1089"
+    # আপনার PAT টোকেনের সাথে ম্যাচ করা নিজস্ব MASTER pro App ID টি নিচে দেওয়া হলো
+    socket_url = "wss://ws.binaryws.com/websockets/v3?app_id=33xU6wAALpbpXGyF0iTt4"
     
     ws = websocket.WebSocketApp(
         socket_url,
@@ -80,6 +79,4 @@ if __name__ == "__main__":
         on_close=on_close
     )
     
-    # সার্ভারের সাথে স্থায়ী সংযোগ স্থাপন করা
     ws.run_forever(sslopt={"cert_reqs": ssl.CERT_NONE})
-    
