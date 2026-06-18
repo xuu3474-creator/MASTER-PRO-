@@ -1,25 +1,29 @@
+import os
 import json
 import ssl
 import time
 import websocket
 
-# --- আপনার তথ্য এখানে দিন ---
-API_TOKEN = "আপনার_মাত্র_কপি_করা_সাধারণ_টোকেনটি_এখানে_বসান".strip() # আপনার ডেরিভ টোকেন
-TRADE_AMOUNT = 10  # প্রতিটি ট্রেডের অ্যামাউন্ট (ডলার)
-DURATION = 1  # ট্রেডের সময়সীমা
-DURATION_UNIT = "m"  # 'm' মানে মিনিট
-SYMBOL = "R_100"  # Volatility 100 Index (মার্কেট সিম্বল)
-# ---------------------------
+# --- রেন্ডার ড্যাশবোর্ড থেকে অটোমেটিক টোকেন রিড করার লজিক ---
+API_TOKEN = os.getenv("DERIV_TOKEN", "").strip()
+TRADE_AMOUNT = 10  
+DURATION = 1  
+DURATION_UNIT = "m"  
+SYMBOL = "R_100"  
+# --------------------------------------------------------
 
 def on_open(ws):
     print("🚀 সার্ভারের সাথে কানেক্ট হয়েছে। অথেনটিকেশন করা হচ্ছে...")
+    if not API_TOKEN:
+        print("❌ ভুল: রেন্ডার ড্যাশবোর্ডে DERIV_TOKEN সেট করা হয়নি!")
+        ws.close()
+        return
     auth_request = {"authorize": API_TOKEN}
     ws.send(json.dumps(auth_request))
 
 def on_message(ws, message):
     data = json.loads(message)
 
-    # ১. লগইন বা অথেনটিকেশন সফল হয়েছে কিনা চেক করা
     if data.get("msg_type") == "authorize":
         if "error" in data:
             print(f"❌ অথেনটিকেশন ব্যর্থ! কারণ: {data['error']['message']}")
@@ -29,7 +33,6 @@ def on_message(ws, message):
             print("🤖 অটো ট্রেডিং শুরু হচ্ছে...")
             execute_trade(ws, contract_type="CALL")
 
-    # ২. ট্রেড রিকোয়েস্টের রেসপন্স চেক করা
     elif data.get("msg_type") == "buy":
         if "error" in data:
             print(f"❌ ট্রেড প্লেস করতে ব্যর্থ! কারণ: {data['error']['message']}")
@@ -46,9 +49,7 @@ def on_close(ws, close_status_code, close_msg):
     print("🔌 বট বন্ধ করা হয়েছে।")
 
 def execute_trade(ws, contract_type="CALL"):
-    """অটোমেটিক ট্রেড প্লেস করার ফাংশন"""
     print(f"⏳ {SYMBOL} মার্কেটে {TRADE_AMOUNT}$ এর একটি {contract_type} ট্রেড পাঠানো হচ্ছে...")
-    
     trade_request = {
         "buy": 1,
         "price": TRADE_AMOUNT,
@@ -65,8 +66,8 @@ def execute_trade(ws, contract_type="CALL"):
     ws.send(json.dumps(trade_request))
 
 if __name__ == "__main__":
-    # ডেরিভের ইউনিভার্সাল আইডি যা সাধারণ টোকেনের সাথে ১০০% কাজ করে
-    socket_url = "wss://ws.binaryws.com/websockets/v3?app_id=1089"
+    # আমরা ডেরিভের অফিশিয়াল ওয়েব ট্রেডার অ্যাপ আইডি ব্যবহার করছি
+    socket_url = "wss://ws.binaryws.com/websockets/v3?app_id=11780"
     
     ws = websocket.WebSocketApp(
         socket_url,
@@ -75,5 +76,4 @@ if __name__ == "__main__":
         on_error=on_error,
         on_close=on_close
     )
-    
     ws.run_forever(sslopt={"cert_reqs": ssl.CERT_NONE})
